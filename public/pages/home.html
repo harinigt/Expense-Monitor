@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+         
+    
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+         
+
+        <style type="text/css">
+
+        button:focus {outline:0 !important;}
+
+        button:active {
+             outline: none !important;
+             border: none;
+           }
+
+        .buttonborder{
+        border-radius: 25px 50px;
+      }
+    
+        .center{
+            padding: 70px 0;
+            text-align: center;
+        }
+            .navbar {
+                border: none;
+                border-radius: 0;
+                background-color: rgba(0,0,0,0);
+                margin-bottom:30px; 
+                min-height:32px    
+            }
+         body { padding-top:50px; 
+            background: url(../public/img/welcome.jpg);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;}
+       body, html {
+            height: 100%;
+        }
+  .modal-header, h4, .close {
+      background-color: #5cb85c;
+      color:white !important;
+      text-align: center;
+      font-size: 30px;
+  }
+  .modal-footer {
+      background-color: #f9f9f9;
+  }
+
+   #subslogan{
+    color: green !important;
+    font-size: 25px;
+    text-indent: 70px;
+    text-shadow: 2px 1px white;
+   }
+
+   h1{
+    color: green !important;
+    text-indent: 70px;
+    text-shadow: 2px 1px white;
+   }
+  </style>
+    </head>
+<body>
+<div class="container">
+   <nav class="navbar navbar-inverse navbar-expand-sm rounded">
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link bg-success text-white mr-sm-2 buttonborder" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link bg-success text-white mr-sm-2 buttonborder" href="./pages/about.html" style="margin-left: 20px">About</a>
+      </li>
+    </ul>
+    <form class="form-inline my-sm-0">
+        <a href="" class="btn btn-success my-0  mr-sm-2 buttonborder" data-toggle="modal" data-target="#modalRegisterForm" >Register</a>
+        <a href="" class="btn btn-success my-0  mr-sm-2 buttonborder" data-toggle="modal" data-target="#modalLoginForm" style="margin-left: 20px">Login</a>
+
+    </form>
+  </div>
+</nav>
+</div>
+
+
+<!-- Registration form Modal  -->
+<form action="/registration" method="post">
+ <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center text-success">
+                <h4 class="modal-title w-100 font-weight-bold">Sign up</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+                <div class="md-form mb-3">
+                    <label data-error="wrong" data-success="right" for="firstname">First Name</label>
+                    <i class="fa fa-user prefix grey-text"></i>
+                    <input type="text" id="firstname" name="fname" class="form-control validate">
+                   
+                </div>
+                 <div class="md-form mb-3">
+                    <label data-error="wrong" data-success="right" for="lastname">Last Name</label>
+                    <i class="fa fa-user prefix grey-text"></i>
+                    <input type="text" id="lastname" name="lname" class="form-control validate">
+                   
+                </div>
+                 <div class="md-form mb-3">
+                    <label data-error="wrong" data-success="right" for="lastname">Username</label>
+                    <i class="fa fa-user prefix grey-text"></i>
+                    <input type="text" id="uname" name="uname" class="form-control validate">
+                   
+                </div>
+                <div class="md-form mb-3">
+                    <label data-error="wrong" data-success="right" for="email">Your email
+                    <i class="fa fa-envelope prefix grey-text"></i></label>
+                    <input type="email" id="email" name="email" class="form-control validate">
+                   
+                </div>
+
+                <div class="md-form mb-3">
+                    <label data-error="wrong" data-success="right" for="pass">Your password</label>
+                    <i class="fa fa-lock"></i>
+                    <input type="password" id="pass" name="passwrd" class="form-control validate">
+                   
+                </div>
+                <div class="md-form mb-3">
+                    <label data-error="wrong" data-success="right" for="pass">Confirm password</label>
+                    <i class="fa fa-lock"></i>
+                    <input type="password" id="passwordConf" name="passwordConf" class="form-control validate">
+                   
+                </div>
+
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button class="btn btn-success buttonborder" type="submit">Sign up<i class="fa fa-user-plus ml-2"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</form>
+
+<!-- Login Modal  -->
+
+<form action="/login" method="post">
+<div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+                <div class="md-form mb-3">
+                     <label data-error="wrong" data-success="right" for="username">Your username</label>
+                    <i class="fa fa-user prefix grey-text"></i>
+                    <input type="text" name="username" id="username" class="form-control validate">
+                   
+                </div>
+
+                <div class="md-form mb-3">
+                    <label data-error="wrong" data-success="right" for="password">Your password</label>
+                    <i class="fa fa-lock"></i>
+                    <input type="password" name="password" id="password" class="form-control validate">
+                    
+                </div>
+
+            </div>
+            <div class="modal-footer d-flex justify-content-center"> 
+                <button class="btn btn-success buttonborder" type="submit"> Login <i class="fa fa-sign-in ml-2"></i></button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+</form>
+ <div id='response'></div>
+ <h1><i>Welcome to Expense-Receipt-Manager<i> </h1>
+ <br><br>
+ <p id="subslogan"><em><b> An easy way to keep account of expenses <br></b></em> </p> 
+ <p id = "subslogan"><b> <em>and manage receipts ......</em> </b></p>
+</body>
+
+</html>

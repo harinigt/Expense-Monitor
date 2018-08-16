@@ -1,3 +1,4 @@
 https://mdbootstrap.com/javascript/bootstrap-modal-form/
-https://github.com/Createdd/authenticationIntro
-https://github.com/Createdd/authenticationIntro
+
+Homepage image source:
+https://pixabay.com/en/money-coin-investment-business-2724241/

@@ -34,8 +34,11 @@ passport.deserializeUser(function(id, done) {
 
 // ...
 
-app.post('/login', passport.authenticate('local', { successRedirect: '/good-login',
+app.post('/login', passport.authenticate('local', { successRedirect: '/welcome',
                                                     failureRedirect: '/bad-login' }));
+
+
+
 
 
 

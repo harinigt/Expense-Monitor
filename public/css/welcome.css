@@ -1,0 +1,86 @@
+
+    .right-inner-addon {
+            position: relative;
+        }
+
+        .expensetable{
+          font-size: 15px ;
+          text-align:center;
+          text-shadow: -1px -1px 0px rgba(255,255,255,0.3) , 1px 1px 0px rgba(0,0,0,0.8);
+        }
+
+        button:focus {outline:none;}
+
+        button:active {
+             outline: none;
+             border: none;
+           }
+
+        .navbarspace{
+          font-size : 16px;
+          margin-left:20px;
+        }
+
+        .expensebutton{
+
+          margin-left:470px;
+        }
+        
+        .formlabel{
+             font-size: 23px;
+             color:white!important;
+             /*text-shadow: 2px 0.5px #ECFF33;*/
+        }
+        .viewformlabel{
+             font-size: 25px;
+             color:white!important;
+             /*text-shadow: 2px 0.5px #ECFF33;*/
+
+        }
+        
+        .col-form-label {
+        font-weight:bold;
+        text-align:right;
+      }
+
+      .form-check-input {
+        margin-top:9px;
+      }
+
+      .form-check-label {
+        line-height:1.75;
+      }
+    
+      .center{
+            padding: 70px 0;
+            text-align: center;
+        }
+      .navbar {
+                border: none;
+                border-radius: 0;
+                background-color: rgba(0,0,0,0);
+                margin-bottom:30px; 
+                min-height:32px   
+      }
+      
+      .buttonborder{
+        border-radius: 25px 50px;
+      }
+      .logoutbutton{
+           font-size : 16px; 
+           margin-left:350px;
+      }
+ body{ 
+              padding-top:50px; 
+
+            background: radial-gradient(ellipse at top,#b58b1d , transparent),
+                        radial-gradient(ellipse at bottom, #00bb00, transparent);
+            /*background-image: url(../public/img/back6.jpg);*/
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover; 
+            height: 100%;}
+            
+       body, html {
+            height: 100%;
+        }
