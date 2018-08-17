@@ -11,22 +11,19 @@ var Strategy = require('passport-local').Strategy;
 var parser = require('body-parser'); 
 var multer = require('multer');
 var flash = require("connect-flash");
-var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn();
+
 var fs = require('fs');
 //const upload = multer({storage: storage})
 var upload = multer({ dest: __dirname + '/public/uploads/' });
 var type = upload.single('imgfile');
-app.use(cookieParser("secret"));
+var MemoryStore =session.MemoryStore;
 
-app.use(session({
-    secret: "secret cat",
-    resave: true,
-    saveUninitialized: true,
-    cookie: {secure: true,
-        httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24
-    }
-}));
+app.use(cookieParser());
+app.use(session({'store': new session.MemoryStore(),
+	                'secret': 'a secret to sign the cookie',
+	                'resave': false,
+	                'saveUninitialized': false,
+	                'cookie': { 'maxAge': 86400000 }}));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -466,21 +463,24 @@ passport.deserializeUser(function(id, done) {
 app.post('/welcome', passport.authenticate('local', { 
                                                   failureRedirect: '/home' }),
    function(req,res){
+
  	req.session.Auth = req.body.username;
  	res.set('Set-Cookie' , "user="+req.body.username);
     res.sendFile(path.join(__dirname + '/public/pages/welcome.html'));
  });
 
 app.get('/welcome', function(req, res) {
-	console.log(req.user)
+var i = 0;
+res.status(200);  
 	console.log("from /welcome :" + req.isAuthenticated());
-	//if(req.isAuthenticated()){
+	if(req.isAuthenticated()){
+
 		 res.sendFile(path.join(__dirname + '/public/pages/welcome.html'));
      
-	// }
-	// else {
-	// 	res.redirect("/");
-	// }
+	}
+	else {
+		res.redirect("/");
+	}
 
 });
 

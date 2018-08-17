@@ -140,6 +140,7 @@
                     ContentType: 'application/json',
                     url: 'http://localhost:3000/viewexpense',            
                         success: function(data) {
+                          console.log(data);
                           var obj = JSON.parse(data);
                           console.log(obj);
                     
