@@ -48,7 +48,8 @@ The expenses due for return can be viewed using the returns option.
 
 This project is licensed under Copyright © MIT License and Copyright (c) 2018 Harinigt. The details can be viewed at https://github.com/harinigt/Expense-Monitor/blob/master/LICENSE. 
 
-#Resources used
+#Resources used 
+
 The various resources used during the development are documented at :
 https://github.com/harinigt/Expense-Monitor/blob/master/resources.txt . 
 
