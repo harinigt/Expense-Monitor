@@ -19,8 +19,8 @@ var type = upload.single('imgfile');
 app.use(cookieParser("secret"));
 
 app.use(session({
-    secret: "secret",
-    resave: false,
+    secret: "secret cat",
+    resave: true,
     saveUninitialized: true,
     cookie: {secure: true,
         httpOnly: true,
@@ -72,6 +72,7 @@ app.post('/addexpense', type, (req, res) => {
 		});
 
 		console.log('new expense inserted');
+		res.redirect("/welcome");
 
 		res.end();
 	};
@@ -89,8 +90,8 @@ app.post('/addexpense', type, (req, res) => {
 		}
 		var user = cookie["user"];
 		db.run(`
-			INSERT INTO expenses (
-				store, item ,
+			INSERT INTO expenses_table (
+				storename, item ,
 				amount , purchasedate, createdate, category , notes ,receiptimg ,userid
 			) VALUES (
 				:strstore ,:stritem ,
@@ -172,7 +173,7 @@ app.post('/viewexpense' , function(req,res){
 		var user = cookie["user"];
 		db.all(
 
-			` SELECT expenseid,Store, item , amount,purchasedate,createdate,category,notes,receiptimg , toreturn from expenses where userid =(SELECT id FROM users WHERE username = :struser) AND purchasedate BETWEEN :strStart AND :strEnd`
+			` SELECT expenseid,storename, item , amount,purchasedate,createdate,category,notes,receiptimg , toreturn from expenses_table where userid =(SELECT id FROM users WHERE username = :struser) AND purchasedate BETWEEN :strStart AND :strEnd`
 			, {
 			':struser' : user,
 			':strStart' :obj.start,
@@ -198,7 +199,7 @@ app.post('/viewexpense' , function(req,res){
 app.post('/updateexpense' , function(req,res){
 
 
-    console.log(req.body);
+    console.log("update expense request data" + req.body);
 
 
 	res.set({
@@ -234,8 +235,8 @@ app.post('/updateexpense' , function(req,res){
 		var functionUpdate = function() {
 		
 		db.run(`
-			UPDATE expenses SET 
-				store = :strstore, item = :stritem ,
+			UPDATE expenses_table SET 
+				storename = :strstore, item = :stritem ,
 				amount = :stramount , purchasedate = :strpurchasedate ,category = :strcategory, notes = :strnotes ,toreturn=:strtoreturn
 			   WHERE  expenseid = :strexpenseid
 			
@@ -246,6 +247,7 @@ app.post('/updateexpense' , function(req,res){
 			':strpurchasedate':req.body.purchasedate,
 			':strcategory': req.body.category,
 			':strnotes':req.body.notes,
+			':strtoreturn':req.body.toreturn,
 			':strexpenseid' : req.body.row_id
 
 		}, function(objectError) {
@@ -264,8 +266,91 @@ app.post('/updateexpense' , function(req,res){
 	res.end();
 
 });
-// User Registration 
 
+
+app.get('/returns', function(req, res) {
+	res.set({
+  	'Content-Type': 'text/plain'
+     });
+	var cookie = req.cookies;
+		var user;
+		if(cookie["user"] === undefined){
+			 console.log("user not loggedin");
+
+		}
+		else{
+			console.log(cookie["user"] + " user loggedin in returns expense");
+		}
+		var user = cookie["user"];
+		console.log(user)
+
+      db.all(
+
+			` SELECT storename, item , amount,purchasedate from expenses_table where userid =(SELECT id FROM users WHERE username = :struser) and toreturn=:strreturn`
+			, {
+			':struser' : user,
+			':strreturn' :1
+			
+
+		}, function(objectError , objectRows) {
+			if (objectError !== null) {
+				res.send(String(objectError));
+			}
+			
+			res.send(JSON.stringify(objectRows));
+		});
+
+
+  //     db.all('SELECT storename, item , receiptimg , amount FROM expenses_table WHERE toreturn = ? and userid = (select id from users where username = ?)','yes', user, function(err, rows) {
+  //     if (!rows) {
+  //   	  console.log(err);
+  //   	  res.send("error while fetching returns") ;
+  //       }
+  //   	else
+  //   	{  
+  //   		console.log(rows);
+  //   		//res.sendStatus(200);
+  //   		res.send(rows);
+
+  //   	}
+    	   
+  // });
+
+});
+
+app.post('/delete', function(req, res) {
+	res.set({
+  	'Content-Type': 'text/plain'
+     });
+	var cookie = req.cookies;
+		var user;
+		if(cookie["user"] === undefined){
+			//return functionError('user not loggedin')
+			 console.log("user not loggedin");
+
+		}
+		else{
+			console.log(cookie["user"] + " user loggedin in delete expense");
+		}
+		
+      console.log(req.body);
+      db.all('DELETE FROM expenses_table WHERE expenseid = ?',parseInt(req.body.row_id), function(err, rows) {
+      if (!rows) {
+    	  console.log(err);
+    	  res.send("error while deleting returns") ;
+        }
+    	else
+    	{   console.log(rows);
+    		//res.sendStatus(200);
+    		res.send(rows);
+
+    	}
+    	   
+  });
+
+});
+
+// User Registration 
 
 app.post('/registration', function(req, res) { 
 	res.set({
@@ -378,7 +463,7 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-app.post('/login', passport.authenticate('local', { 
+app.post('/welcome', passport.authenticate('local', { 
                                                   failureRedirect: '/home' }),
    function(req,res){
  	req.session.Auth = req.body.username;
@@ -387,12 +472,22 @@ app.post('/login', passport.authenticate('local', {
  });
 
 app.get('/welcome', function(req, res) {
-      require('connect-ensure-login').ensureLoggedIn('/')
+	console.log(req.user)
+	console.log("from /welcome :" + req.isAuthenticated());
+	//if(req.isAuthenticated()){
+		 res.sendFile(path.join(__dirname + '/public/pages/welcome.html'));
      
-     res.sendFile(path.join(__dirname + '/public/pages/welcome.html'));
+	// }
+	// else {
+	// 	res.redirect("/");
+	// }
+
+});
+
+app.get('/about', function(req, res) {
+      //require('connect-ensure-login').ensureLoggedIn('/')
      
-    
-     //res.send("user not logged in");
+     res.sendFile(path.join(__dirname + '/public/pages/about.html'));
 });
 
 
@@ -406,24 +501,10 @@ app.get('/logout',
         }    
         res.cookie(prop, '', {expires: new Date(0)});
     }  
-    res.redirect('/');
+    res.sendFile(path.join(__dirname + '/public/pages/thankyou.html'));
   });
 
 
-
-
-// app.get('/login',
-//   function(req, res){
-// console.log("in login");
-//     res.sendFile(path.join(__dirname + '/public/pages/home.html'));
-//   });
-
-// function isAuthenticated(req, res, next) {
-//  console.log(req.session.id);
-//   if (req.session.id.authenticated)
-//       return next();
-//   res.redirect('/');
-// }
-//app.use(express.static('public'));
 app.use('/public', express.static(__dirname + '/public'));
 app.listen(3000);
+console.log("server started at port 3000")

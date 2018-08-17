@@ -1,4 +1,5 @@
 https://mdbootstrap.com/javascript/bootstrap-modal-form/
+https://codewithmark.com/easily-edit-html-table-rows-or-cells-with-jquery
 
 Homepage image source:
 https://pixabay.com/en/money-coin-investment-business-2724241/
