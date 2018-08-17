@@ -156,9 +156,9 @@
         
         var row_id = obj[index].expenseid;
         var return_mark = ""
-        if(obj[index].toreturn===1){
+        if(obj[index].toreturn==='1'){
           return_mark='yes';
-        }else{
+        }else if(obj[index].toreturn==='0'){
           return_mark='no';
         }
        
@@ -307,15 +307,16 @@
                                               var col_name = $(this).attr('col_name');  
                                               var col_val  =  $(this).html();
                                               if(col_name==="toreturn" && col_val==='yes'){
-                                                col_val=1
-                                              }else{
-                                                col_val=0
+                                                col_val='1';
+                                              }else if (col_name==="toreturn" && col_val==='no'){
+                                                col_val='0';
                                               }
                                               arr[col_name] = col_val;
 
                                             });
 
                                             $.extend(arr, {row_id:row_id});
+                                            console.log(arr);
 
                                              $.ajax({
                                                               type: 'POST',

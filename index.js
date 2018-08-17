@@ -157,22 +157,11 @@ app.post('/viewexpense' , function(req,res){
 	};
 
 	var functionSelect = function() {
-		var cookie = req.cookies;
-		var user;
-		if(cookie["user"] === undefined){
-			return functionError('user not loggedin')
-			 //console.log("user not loggedin");
-
-		}
-		else{
-			console.log(cookie["user"] + " user loggedin in view expense");
-		}
-		var user = cookie["user"];
 		db.all(
 
-			` SELECT expenseid,storename, item , amount,purchasedate,createdate,category,notes,receiptimg , toreturn from expenses_table where userid =(SELECT id FROM users WHERE username = :struser) AND purchasedate BETWEEN :strStart AND :strEnd`
+			` SELECT expenseid,storename, item , amount,purchasedate,createdate,category,notes,receiptimg , toreturn from expenses_table where userid = :struser AND purchasedate BETWEEN :strStart AND :strEnd`
 			, {
-			':struser' : user,
+			':struser' : req.user.id,
 			':strStart' :obj.start,
 			':strEnd' :obj.end
 
@@ -194,15 +183,10 @@ app.post('/viewexpense' , function(req,res){
 //update the expenses 
 
 app.post('/updateexpense' , function(req,res){
-
-
-    console.log("update expense request data" + req.body);
-
-
-	res.set({
+res.set({
   	'Content-Type': 'text/plain'
    });
- 
+  console.log(req.body.toreturn);
   var updateExpense = function(){
    	return functionUpdate();
    }
@@ -244,7 +228,7 @@ app.post('/updateexpense' , function(req,res){
 			':strpurchasedate':req.body.purchasedate,
 			':strcategory': req.body.category,
 			':strnotes':req.body.notes,
-			':strtoreturn':req.body.toreturn,
+			':strtoreturn':parseInt(req.body.toreturn),
 			':strexpenseid' : req.body.row_id
 
 		}, function(objectError) {
@@ -269,23 +253,13 @@ app.get('/returns', function(req, res) {
 	res.set({
   	'Content-Type': 'text/plain'
      });
-	var cookie = req.cookies;
-		var user;
-		if(cookie["user"] === undefined){
-			 console.log("user not loggedin");
-
-		}
-		else{
-			console.log(cookie["user"] + " user loggedin in returns expense");
-		}
-		var user = cookie["user"];
-		console.log(user)
-
+	
+	console.log(req.user);
       db.all(
 
-			` SELECT storename, item , amount,purchasedate from expenses_table where userid =(SELECT id FROM users WHERE username = :struser) and toreturn=:strreturn`
+			` SELECT storename, item , amount,purchasedate from expenses_table where userid =:struser and toreturn=:strreturn`
 			, {
-			':struser' : user,
+			':struser' : req.user.id,
 			':strreturn' :1
 			
 
@@ -319,19 +293,8 @@ app.post('/delete', function(req, res) {
 	res.set({
   	'Content-Type': 'text/plain'
      });
-	var cookie = req.cookies;
-		var user;
-		if(cookie["user"] === undefined){
-			//return functionError('user not loggedin')
-			 console.log("user not loggedin");
-
-		}
-		else{
-			console.log(cookie["user"] + " user loggedin in delete expense");
-		}
-		
-      console.log(req.body);
-      db.all('DELETE FROM expenses_table WHERE expenseid = ?',parseInt(req.body.row_id), function(err, rows) {
+      if(req.isAuthenticated()){
+      	 db.all('DELETE FROM expenses_table WHERE expenseid = ?',parseInt(req.body.row_id), function(err, rows) {
       if (!rows) {
     	  console.log(err);
     	  res.send("error while deleting returns") ;
@@ -344,6 +307,12 @@ app.post('/delete', function(req, res) {
     	}
     	   
   });
+
+      }
+      else{
+      	res.send( req.user + " is not logged in ");
+      }
+     
 
 });
 
@@ -470,7 +439,6 @@ app.post('/welcome', passport.authenticate('local', {
  });
 
 app.get('/welcome', function(req, res) {
-var i = 0;
 res.status(200);  
 	console.log("from /welcome :" + req.isAuthenticated());
 	if(req.isAuthenticated()){
