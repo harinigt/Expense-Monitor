@@ -24,7 +24,7 @@ After installation the application can be invoked using the command
 
 node index.js
 
-On successful installation the application can viewed at the the url http://localhost:3000 
+On successful installation, the application can viewed at the url http://localhost:3000 
 If the user doesn’t receive a message  ‘server started at port 3000’ , the dependencies need to be installed. 
 
 The required dependencies can be installed using the command :
@@ -35,12 +35,12 @@ The user must have node js , express and sqlite installed on the system.
 
 #Application :
 
-The application is accessible on the browser on http://localhost:3000 . The user has to register to the application and authenticate. 
-On succesful authentication the user can add their expenses  , view and edit expenses and view the returns using the respective tabs provided. 
+The application is accessible on the browser on http://localhost:3000 . The user has to register to the application and authenticate to use the application. 
+On succesful authentication the user can add their expenses  , view and edit expenses and view the returns using the respective tabs. 
 
 The add expense option opens a form which allows users to enter the expense information along with the receipt for the expense entered. 
 
-To view and edit the expense view expense option. The user can view expenses between the specified dates. The expenses are displayed as a table with option to edit the same. An expense can be edited by using the edit button at the end of an expense . The edit options allows user to update an expense , mark it for return or delete the expense. 
+To view expense option allows the user to view and edit the expenses. The user can view/edit expenses between the selected dates. The expenses are displayed in a tabular form with option to edit the same. An expense can be edited by using the edit button at the end of an expense . The edit options allows user to update an expense , mark it for return or delete the expense. 
 
 The expenses due for return can be viewed using the returns option. 
 
